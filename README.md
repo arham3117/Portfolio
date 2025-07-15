@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Muhammad Arham - Portfolio
 
-## Getting Started
+A modern, interactive portfolio website showcasing my expertise as a Cloud Engineer. Built with Next.js 15, featuring smooth animations, custom cursor interactions, and elegant typography.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Bilingual Design**: English and Urdu (اردو) name display
+- **Interactive Navigation**: Smooth section transitions with keyboard/mouse controls
+- **Custom Cursor**: Dynamic cursor that adapts to different pages and hover states
+- **Hover-Triggered Social Links**: LinkedIn, GitHub, and Resume access
+- **Project Carousel**: Elegant project showcase with progress indicators
+- **Responsive Design**: Optimized for all device sizes
+- **Animated Elements**: Staggered text animations and smooth transitions
+- **Ethereal Background**: Dynamic shadow effects with noise textures
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15.3.5
+- **React**: 19.0.0
+- **Styling**: Tailwind CSS 4
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Typography**: Google Fonts (Playfair Display, Montserrat, Crimson Text, Dancing Script, Noto Nastaliq Urdu)
+- **Language**: TypeScript
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd my-portfolio
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Visit [http://localhost:3000](http://localhost:3000) to see the portfolio.
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── globals.css          # Global styles and fonts
+│   ├── layout.tsx           # Root layout with custom cursor
+│   ├── page.tsx             # Landing page
+│   └── portfolio/
+│       └── page.tsx         # Main portfolio sections
+├── components/
+│   └── ui/
+│       ├── custom-cursor.tsx    # Global custom cursor component
+│       └── etheral-shadow.tsx   # Background shadow effects
+├── data/
+│   └── portfolio.ts         # Skills, projects, and certifications data
+└── types/
+    └── index.ts             # TypeScript type definitions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎮 Navigation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Arrow Keys**: Navigate between sections
+- **Mouse Wheel**: Scroll through portfolio sections
+- **Left Edge Hover**: Access social navigation (LinkedIn, GitHub, Resume)
+- **Project Navigation**: Use PREV/NEXT buttons or progress indicators
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎨 Design Features
 
-## Learn More
+- **Landing Page**: Features both English and Urdu names with elegant typography
+- **Portfolio Sections**: About, Skills, Projects, and Certifications
+- **Color Scheme**: Sophisticated dark theme with strategic white accents
+- **Typography**: Carefully selected font combinations for readability and elegance
+- **Custom Cursor**: Black on landing page, white on portfolio with smooth transitions
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project is optimized for deployment on Vercel:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+npm start
+```
 
-## Deploy on Vercel
+## 📝 Available Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build production application
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint for code quality
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌐 Contact
+
+- **LinkedIn**: [Muhammad Arham](https://www.linkedin.com/in/muhammad-arham-profile)
+- **GitHub**: [Your GitHub Profile]
+- **Resume**: Available via portfolio navigation
+
+---
+
+Built with ❤️ by Muhammad Arham
