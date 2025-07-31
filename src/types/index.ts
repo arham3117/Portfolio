@@ -9,6 +9,7 @@ export interface Project {
   bulletPoints?: string[];
   githubUrl: string;
   technologies: string[];
+  category: 'devops' | 'cloud';
 }
 
 export interface Certification {

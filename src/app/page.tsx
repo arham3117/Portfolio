@@ -26,7 +26,7 @@ export default function Home() {
         <div className="text-center">
           {/* Urdu Name with enhanced styling */}
           <h1 className="urdu-text text-6xl md:text-8xl lg:text-9xl font-bold mb-16 text-black drop-shadow-2xl animate-pulse">
-            محمد ارحام
+            محمد ارحم
           </h1>
           
           {/* English name */}
@@ -60,6 +60,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

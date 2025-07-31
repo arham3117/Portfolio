@@ -4,7 +4,7 @@ import { skills, projects, certifications } from '@/data/portfolio';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import type { Skill } from '@/types';
-import { LinkedinIcon, GithubIcon, FileText, ChevronRight } from 'lucide-react';
+import { Linkedin, Github, FileText } from 'lucide-react';
 
 // Staggered Text Animation Component
 const AnimatedText = ({ text, className, style, delay = 0 }: { text: string; className?: string; style?: React.CSSProperties; delay?: number }) => {
@@ -57,7 +57,7 @@ export default function Portfolio() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentProject, setCurrentProject] = useState(0);
   const [isProjectTransitioning, setIsProjectTransitioning] = useState(false);
-  const [showSocialNav, setShowSocialNav] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<'devops' | 'cloud'>('devops');
   const containerRef = useRef<HTMLDivElement>(null);
   
   const sections = [
@@ -67,6 +67,9 @@ export default function Portfolio() {
     'projects',
     'certifications'
   ];
+
+  // Filter projects based on selected category
+  const filteredProjects = projects.filter(project => project.category === selectedCategory);
 
   const nextSection = useCallback(() => {
     if (isTransitioning || currentSection >= sections.length - 1) return;
@@ -96,14 +99,19 @@ export default function Portfolio() {
   }, [currentProject, isProjectTransitioning]);
 
   const nextProject = useCallback(() => {
-    const newIndex = currentProject < projects.length - 1 ? currentProject + 1 : 0;
+    const newIndex = currentProject < filteredProjects.length - 1 ? currentProject + 1 : 0;
     changeProject(newIndex);
-  }, [currentProject, changeProject]);
+  }, [currentProject, changeProject, filteredProjects.length]);
 
   const prevProject = useCallback(() => {
-    const newIndex = currentProject > 0 ? currentProject - 1 : projects.length - 1;
+    const newIndex = currentProject > 0 ? currentProject - 1 : filteredProjects.length - 1;
     changeProject(newIndex);
-  }, [currentProject, changeProject]);
+  }, [currentProject, changeProject, filteredProjects.length]);
+
+  // Reset currentProject when category changes
+  useEffect(() => {
+    setCurrentProject(0);
+  }, [selectedCategory]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -125,47 +133,16 @@ export default function Portfolio() {
       }
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      // Show navigation when cursor is in the left 100px area
-      if (e.clientX < 100) {
-        setShowSocialNav(true);
-      } else if (e.clientX > 200) {
-        // Hide when cursor moves away from left area
-        setShowSocialNav(false);
-      }
-    };
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [nextSection, prevSection]);
 
-  const socialNavItems = [
-    { 
-      id: 'linkedin', 
-      icon: <LinkedinIcon />, 
-      label: 'LinkedIn', 
-      onClick: () => window.open('https://www.linkedin.com/in/muhammad-arham-profile', '_blank') 
-    },
-    { 
-      id: 'github', 
-      icon: <GithubIcon />, 
-      label: 'GitHub', 
-      onClick: () => window.open('https://github.com/yourusername', '_blank') 
-    },
-    { 
-      id: 'resume', 
-      icon: <FileText />, 
-      label: 'Resume', 
-      onClick: () => window.open('/resume.pdf', '_blank') 
-    },
-  ];
 
   const getSectionContent = (sectionIndex: number) => {
     switch (sectionIndex) {
@@ -322,17 +299,89 @@ export default function Portfolio() {
           </div>
         );
       case 3:
-        const currentProjectData = projects[currentProject];
+        if (filteredProjects.length === 0) {
+          return (
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="mb-16 text-center">
+                <h2 className="text-4xl md:text-6xl font-light mb-6 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+                  <AnimatedText text="PROJECTS" />
+                </h2>
+                <div className="w-20 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
+              </div>
+              
+              {/* Category Filter */}
+              <div className="mb-12 text-center">
+                <div className="inline-flex items-center space-x-8">
+                  {[
+                    { key: 'devops', label: 'DEVOPS' },
+                    { key: 'cloud', label: 'CLOUD' }
+                  ].map(({ key, label }) => (
+                    <button
+                      key={key}
+                      onClick={() => setSelectedCategory(key as 'devops' | 'cloud')}
+                      className={`px-4 py-2 text-sm font-light uppercase tracking-wider transition-all duration-300${
+                        selectedCategory === key 
+                          ? ' text-white border-b border-white' 
+                          : ' text-gray-400 hover:text-gray-200'
+                      }`}
+                      style={{
+                        fontFamily: 'Montserrat, sans-serif',
+                        fontWeight: '300',
+                        letterSpacing: '0.1em',
+                        cursor: 'none'
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <p className="text-lg text-gray-400 font-light" style={{fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300'}}>
+                No projects found in this category.
+              </p>
+            </div>
+          );
+        }
+
+        const currentProjectData = filteredProjects[currentProject];
         
         return (
           <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-16">
+            <div className="mb-16 text-center">
               <h2 className="text-4xl md:text-6xl font-light mb-6 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="PROJECTS" />
               </h2>
               <div className="w-20 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
             
+            {/* Category Filter */}
+            <div className="mb-12 text-center">
+              <div className="inline-flex items-center space-x-8">
+                {[
+                  { key: 'devops', label: 'DEVOPS' },
+                  { key: 'cloud', label: 'CLOUD' }
+                ].map(({ key, label }) => (
+                  <button
+                    key={key}
+                    onClick={() => setSelectedCategory(key as 'devops' | 'cloud')}
+                    className={`px-4 py-2 text-sm font-light uppercase tracking-wider transition-all duration-300${
+                      selectedCategory === key 
+                        ? ' text-white border-b border-white' 
+                        : ' text-gray-400 hover:text-gray-200'
+                    }`}
+                    style={{
+                      fontFamily: 'Montserrat, sans-serif',
+                      fontWeight: '300',
+                      letterSpacing: '0.1em',
+                      cursor: 'none'
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
             
             {/* Current project display */}
             <div className={`min-h-[400px] flex flex-col justify-center transition-all duration-300 ${
@@ -395,11 +444,11 @@ export default function Portfolio() {
                   <div className="w-16 h-px bg-gray-600 relative">
                     <div 
                       className="h-full bg-white transition-all duration-500"
-                      style={{ width: `${((currentProject + 1) / projects.length) * 100}%` }}
+                      style={{ width: `${((currentProject + 1) / filteredProjects.length) * 100}%` }}
                     ></div>
                   </div>
                   <span className="text-xs text-white/60" style={{fontFamily: 'Montserrat, sans-serif', fontWeight: '300'}}>
-                    {String(projects.length).padStart(2, '0')}
+                    {String(filteredProjects.length).padStart(2, '0')}
                   </span>
                 </div>
                 
@@ -425,38 +474,138 @@ export default function Portfolio() {
         );
       case 4:
         return (
-          <div className="max-w-6xl mx-auto text-center">
-            <div className="mb-16">
+          <div className="max-w-5xl mx-auto text-center">
+            <div className="mb-20">
               <h2 className="text-4xl md:text-6xl font-light mb-6 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="CERTIFICATIONS" />
               </h2>
               <div className="w-20 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-h-96 overflow-y-auto">
-              {certifications.map((cert, index) => (
-                <div key={index} className="mb-8">
-                  <h3 className="text-base md:text-lg font-light mb-3 tracking-wide" style={{color: '#F5F5F5', fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '400', letterSpacing: '0.02em'}}>
-                    {cert.name}
-                  </h3>
-                  <p className="mb-2 font-light" style={{color: '#E0E0E0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300'}}>
-                    {cert.issuer}
-                  </p>
-                  <p className="text-sm mb-4 font-light uppercase tracking-wider" style={{color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
-                    {cert.date}
-                  </p>
-                  <div>
-                    <a
-                      href={cert.badgeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="transition-all duration-300 text-xs font-light hover:text-white hover:translate-x-1 uppercase tracking-wide"
-                      style={{color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em', cursor: 'none'}}
-                    >
-                      View Badge →
-                    </a>
+            
+            {/* Certifications List */}
+            <div className="max-w-6xl mx-auto">
+              {/* Even certifications in 2 columns */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                {certifications.slice(0, certifications.length % 2 === 0 ? certifications.length : certifications.length - 1).map((cert, index) => (
+                  <div key={index} className="group relative">
+                    {/* Subtle background glow on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-white/[0.01] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg -m-4"></div>
+                    
+                    {/* Certification Item */}
+                    <div className="relative pb-8 transition-all duration-500 p-6 group-hover:border group-hover:border-white/20 group-hover:rounded-lg">
+                      <div className="flex items-start space-x-4">
+                        <div className="flex-shrink-0 mt-1">
+                          {/* Number in square */}
+                          <div className="w-6 h-6 border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-all duration-300">
+                            <span className="text-xs font-light" style={{color: '#A0A0A0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300'}}>
+                              {String(index + 1).padStart(2, '0')}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-lg md:text-xl font-light tracking-wide group-hover:text-white transition-colors duration-300 mb-4 text-left leading-tight" style={{color: '#F5F5F5', fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '400', letterSpacing: '0.01em'}}>
+                            {cert.name}
+                          </h3>
+                        </div>
+                      </div>
+                      
+                      {/* Year and Badge in a more elegant layout */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-xs uppercase tracking-wider font-light" style={{color: '#A0A0A0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+                            {cert.date}
+                          </span>
+                          <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+                          <span className="text-xs font-light opacity-60" style={{color: '#D0D0D0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300'}}>
+                            Certified
+                          </span>
+                        </div>
+                        
+                        <a
+                          href={cert.badgeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="transition-all duration-300 text-xs font-light hover:text-white hover:translate-x-1 uppercase tracking-wide opacity-50 group-hover:opacity-100 hover:scale-105"
+                          style={{color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em', cursor: 'none'}}
+                        >
+                          View Badge →
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Last certification centered if odd number */}
+              {certifications.length % 2 === 1 && (
+                <div className="flex justify-center">
+                  <div className="w-full max-w-md">
+                    {(() => {
+                      const cert = certifications[certifications.length - 1];
+                      const index = certifications.length - 1;
+                      return (
+                        <div className="group relative">
+                          {/* Subtle background glow on hover */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-white/[0.01] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg -m-4"></div>
+                          
+                          {/* Certification Item */}
+                          <div className="relative pb-8 transition-all duration-500 p-6 group-hover:border group-hover:border-white/20 group-hover:rounded-lg">
+                            <div className="flex items-start space-x-4">
+                              <div className="flex-shrink-0 mt-1">
+                                {/* Number in square */}
+                                <div className="w-6 h-6 border border-white/20 flex items-center justify-center group-hover:border-white/40 transition-all duration-300">
+                                  <span className="text-xs font-light" style={{color: '#A0A0A0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300'}}>
+                                    {String(index + 1).padStart(2, '0')}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="text-lg md:text-xl font-light tracking-wide group-hover:text-white transition-colors duration-300 mb-4 text-left leading-tight" style={{color: '#F5F5F5', fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '400', letterSpacing: '0.01em'}}>
+                                  {cert.name}
+                                </h3>
+                              </div>
+                            </div>
+                            
+                            {/* Year and Badge in a more elegant layout */}
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-3">
+                                <span className="text-xs uppercase tracking-wider font-light" style={{color: '#A0A0A0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+                                  {cert.date}
+                                </span>
+                                <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+                                <span className="text-xs font-light opacity-60" style={{color: '#D0D0D0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300'}}>
+                                  Certified
+                                </span>
+                              </div>
+                              
+                              <a
+                                href={cert.badgeUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="transition-all duration-300 text-xs font-light hover:text-white hover:translate-x-1 uppercase tracking-wide opacity-50 group-hover:opacity-100 hover:scale-105"
+                                style={{color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em', cursor: 'none'}}
+                              >
+                                View Badge →
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </div>
-              ))}
+              )}
+            </div>
+            
+            {/* Elegant closing decoration */}
+            <div className="flex justify-center mt-20">
+              <div className="flex items-center space-x-4">
+                <div className="w-8 h-px bg-gradient-to-r from-transparent to-white/30"></div>
+                <div className="text-white/30 text-lg" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300'}}>
+                  ✦
+                </div>
+                <div className="w-8 h-px bg-gradient-to-l from-transparent to-white/30"></div>
+              </div>
             </div>
             
             {/* Bottom Decoration */}
@@ -477,43 +626,53 @@ export default function Portfolio() {
       style={{backgroundColor: '#050505'}}
     >
       
-      {/* Left Side Indicator - Simple Arrow */}
-      <div className={`fixed left-3 top-1/2 transform -translate-y-1/2 z-30 transition-all duration-300 ${
-        showSocialNav ? 'opacity-0' : 'opacity-60 hover:opacity-100'
-      }`}>
-        <div className="flex items-center justify-center w-8 h-12 bg-transparent border rounded-r-lg cursor-pointer" 
-             style={{borderColor: '#D0D0D0'}}>
-          <ChevronRight className="w-4 h-4" style={{color: '#E0E0E0'}} />
-        </div>
-      </div>
-
-      {/* Global Social Navigation - Left Side with Hover Effect */}
-      <div className={`fixed left-2 top-1/2 transform -translate-y-1/2 z-40 transition-all duration-300 ${
-        showSocialNav ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
-      }`}>
-        {/* Smooth Icon Animation */}
-        <div className="flex flex-col space-y-4 p-4">
-          {socialNavItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={item.onClick}
-              className="group relative flex items-center justify-center w-10 h-10 transition-all duration-500 hover:w-12 hover:h-12 hover:scale-110 hover:bg-white/10 rounded-full"
-              title={item.label}
-              style={{cursor: 'none'}}
-            >
-              {/* Full icon - always visible with smooth scaling */}
-              <div className="w-5 h-5 transition-all duration-500 group-hover:w-6 group-hover:h-6 group-hover:text-white" 
-                   style={{color: '#E0E0E0'}}>
-                {item.icon}
-              </div>
-              
-              {/* Tooltip */}
-              <div className="absolute left-16 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap" 
-                   style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
-                {item.label}
-              </div>
-            </button>
-          ))}
+      {/* Fixed Bottom-Right Social Menu */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <div className="flex items-center space-x-4">
+          <a
+            href="https://www.linkedin.com/in/muhammad-arham-profile"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex items-center justify-center w-10 h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 hover:w-12 hover:h-12 hover:scale-110 transition-all duration-500"
+            style={{cursor: 'none'}}
+          >
+            <Linkedin className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
+            {/* Tooltip */}
+            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap" 
+                 style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
+              LinkedIn
+            </div>
+          </a>
+          
+          <a
+            href="https://github.com/<your-github-username>"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex items-center justify-center w-10 h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 hover:w-12 hover:h-12 hover:scale-110 transition-all duration-500"
+            style={{cursor: 'none'}}
+          >
+            <Github className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
+            {/* Tooltip */}
+            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap" 
+                 style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
+              GitHub
+            </div>
+          </a>
+          
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex items-center justify-center w-10 h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 hover:w-12 hover:h-12 hover:scale-110 transition-all duration-500"
+            style={{cursor: 'none'}}
+          >
+            <FileText className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
+            {/* Tooltip */}
+            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap" 
+                 style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
+              Resume
+            </div>
+          </a>
         </div>
       </div>
       
