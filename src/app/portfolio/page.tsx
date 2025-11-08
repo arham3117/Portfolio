@@ -224,15 +224,15 @@ export default function Portfolio() {
         );
       case 1:
         return (
-          <div className="max-w-6xl mx-auto text-center px-6 md:px-8">
-            <div className="mb-16 md:mb-20">
-              <h2 className="text-5xl md:text-7xl font-light mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+          <div className="max-w-6xl mx-auto text-center px-6 md:px-8 w-full">
+            <div className="mb-12 sm:mb-16 md:mb-20">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light mb-6 md:mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="ABOUT ME" />
               </h2>
-              <div className="w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
+              <div className="w-20 md:w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
-            <div className="max-w-4xl mx-auto mb-20 md:mb-24">
-              <p className="text-xl md:text-2xl leading-relaxed md:leading-loose font-light" style={{color: '#E8E8E8', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '2.2'}}>
+            <div className="max-w-4xl mx-auto mb-12 sm:mb-16 md:mb-20 lg:mb-24">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-loose font-light" style={{color: '#E8E8E8', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '2.2'}}>
                 I am a passionate Cloud Engineer with expertise in designing, implementing, and managing scalable cloud infrastructure solutions.
                 With hands-on experience across AWS, Azure, and Google Cloud Platform, I specialize in Infrastructure as Code,
                 containerization, and DevOps practices. I&apos;m committed to building robust, secure, and cost-effective cloud solutions
@@ -253,10 +253,10 @@ export default function Portfolio() {
 
             {/* Philosophy Quote */}
             <div className="max-w-5xl mx-auto">
-              <blockquote className="text-2xl md:text-4xl font-light leading-relaxed italic mb-12" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.01em', color: '#F0F0F0'}}>
+              <blockquote className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-light leading-relaxed italic mb-8 md:mb-12" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.01em', color: '#F0F0F0'}}>
                 <AnimatedText text="Technology should be invisible, infrastructure should be elegant, and solutions should be timeless." delay={200} />
               </blockquote>
-              <p className="text-base md:text-lg uppercase tracking-[0.2em]" style={{color: '#D8D8D8', fontFamily: 'Montserrat, sans-serif', fontWeight: '300'}}>
+              <p className="text-sm sm:text-base md:text-lg uppercase tracking-[0.2em]" style={{color: '#D8D8D8', fontFamily: 'Montserrat, sans-serif', fontWeight: '300'}}>
                 My Approach to Cloud Engineering
               </p>
             </div>
@@ -269,12 +269,12 @@ export default function Portfolio() {
         );
       case 2:
         return (
-          <div className="max-w-7xl mx-auto text-center px-6 md:px-8">
-            <div className="mb-12 md:mb-16">
-              <h2 className="text-5xl md:text-7xl font-light mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+          <div className="max-w-7xl mx-auto text-center px-6 md:px-8 w-full">
+            <div className="mb-8 sm:mb-12 md:mb-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light mb-6 md:mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="SKILLS" />
               </h2>
-              <div className="w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
+              <div className="w-20 md:w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 px-4">
               {Object.entries(
@@ -380,12 +380,12 @@ export default function Portfolio() {
 
 
         return (
-          <div className="max-w-6xl mx-auto text-center px-6 md:px-8">
-            <div className="mb-12 md:mb-16 text-center">
-              <h2 className="text-5xl md:text-7xl font-light mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+          <div className="max-w-6xl mx-auto text-center px-6 md:px-8 w-full">
+            <div className="mb-8 sm:mb-12 md:mb-16 text-center">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light mb-6 md:mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="PROJECTS" />
               </h2>
-              <div className="w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
+              <div className="w-20 md:w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
 
             {/* Category Filter */}
@@ -417,20 +417,20 @@ export default function Portfolio() {
             </div>
 
             {/* Current project display */}
-            <div className={`min-h-[400px] flex flex-col justify-center transition-all duration-300 py-6 ${
+            <div className={`min-h-[300px] sm:min-h-[400px] flex flex-col justify-center transition-all duration-300 py-6 ${
               isProjectTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
             }`}>
-              <h3 className="text-3xl md:text-5xl font-light mb-8 tracking-wide" style={{color: '#F8F8F8', fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '400', letterSpacing: '0.02em'}}>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-6 md:mb-8 tracking-wide" style={{color: '#F8F8F8', fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '400', letterSpacing: '0.02em'}}>
                 {currentProjectData.title}
               </h3>
-              <p className="mb-8 md:mb-10 font-light leading-relaxed text-xl md:text-2xl max-w-4xl mx-auto" style={{color: '#E8E8E8', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '2'}}>
+              <p className="mb-6 md:mb-8 lg:mb-10 font-light leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto" style={{color: '#E8E8E8', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '2'}}>
                 {currentProjectData.description}
               </p>
               {currentProjectData.bulletPoints && (
-                <ul className="list-none mb-8 md:mb-10 space-y-3 md:space-y-4 font-light text-lg md:text-xl max-w-3xl mx-auto" style={{color: '#D8D8D8', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '1.8'}}>
+                <ul className="list-none mb-6 md:mb-8 lg:mb-10 space-y-2 sm:space-y-3 md:space-y-4 font-light text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto" style={{color: '#D8D8D8', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '1.8'}}>
                   {currentProjectData.bulletPoints.map((point, idx) => (
                     <li key={idx} className="flex items-start text-left">
-                      <span className="text-white mr-4 mt-1">•</span>
+                      <span className="text-white mr-3 sm:mr-4 mt-1">•</span>
                       <span>{point}</span>
                     </li>
                   ))}
@@ -507,12 +507,12 @@ export default function Portfolio() {
         );
       case 4:
         return (
-          <div className="max-w-6xl mx-auto text-center px-6 md:px-8">
-            <div className="mb-12 md:mb-16">
-              <h2 className="text-5xl md:text-7xl font-light mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+          <div className="max-w-6xl mx-auto text-center px-6 md:px-8 w-full">
+            <div className="mb-8 sm:mb-12 md:mb-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light mb-6 md:mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="CERTIFICATIONS" />
               </h2>
-              <div className="w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
+              <div className="w-20 md:w-24 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
             
             {/* Certifications List */}
@@ -655,14 +655,14 @@ export default function Portfolio() {
   return (
     <div
       ref={containerRef}
-      className="h-screen overflow-hidden relative"
+      className="min-h-screen h-screen overflow-hidden relative"
       style={{backgroundColor: '#050505'}}
     >
       {/* Dark Shader Background */}
       <DarkShaderBackground />
 
       {/* Fixed Bottom-Right Social Menu */}
-      <div className="fixed bottom-8 right-8 z-50">
+      <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50">
         <div className="flex items-center space-x-4">
           <a
             href="https://www.linkedin.com/in/ma28b/"
@@ -723,7 +723,7 @@ export default function Portfolio() {
 
       {/* Main content container */}
       <div
-        className={`h-full flex items-center justify-center px-4 transition-all duration-700 ease-in-out relative z-30 ${
+        className={`h-full flex flex-col justify-center items-center px-4 py-8 sm:py-12 overflow-y-auto transition-all duration-700 ease-in-out relative z-30 ${
           isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
         }`}
       >
