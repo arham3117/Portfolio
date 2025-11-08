@@ -5,7 +5,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import type { Skill } from '@/types';
 import { Linkedin, Github, FileText } from 'lucide-react';
-import { Component } from "@/components/ui/etheral-shadow";
+import { DarkShaderBackground } from "@/components/ui/dark-shader-background";
 
 // Staggered Text Animation Component
 const AnimatedText = ({ text, className, style, delay = 0 }: { text: string; className?: string; style?: React.CSSProperties; delay?: number }) => {
@@ -46,20 +46,6 @@ const AnimatedText = ({ text, className, style, delay = 0 }: { text: string; cla
         </span>
       ))}
     </span>
-  );
-};
-
-// Dark Ethereal Background Component
-const DarkEtherealBackground = () => {
-  return (
-    <div className="fixed inset-0 w-full h-full">
-      <Component
-        color="rgba(15, 15, 15, 1)"
-        animation={{ scale: 120, speed: 80 }}
-        noise={{ opacity: 0.8, scale: 1.3 }}
-        sizing="fill"
-      />
-    </div>
   );
 };
 
@@ -638,8 +624,8 @@ export default function Portfolio() {
       className="h-screen overflow-hidden relative"
       style={{backgroundColor: '#050505'}}
     >
-      {/* Dark Ethereal Background */}
-      <DarkEtherealBackground />
+      {/* Dark Shader Background */}
+      <DarkShaderBackground />
 
       {/* Fixed Bottom-Right Social Menu */}
       <div className="fixed bottom-8 right-8 z-50">
