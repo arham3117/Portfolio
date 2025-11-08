@@ -5,6 +5,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import type { Skill } from '@/types';
 import { Linkedin, Github, FileText } from 'lucide-react';
+import { Component } from "@/components/ui/etheral-shadow";
 
 // Staggered Text Animation Component
 const AnimatedText = ({ text, className, style, delay = 0 }: { text: string; className?: string; style?: React.CSSProperties; delay?: number }) => {
@@ -48,8 +49,19 @@ const AnimatedText = ({ text, className, style, delay = 0 }: { text: string; cla
   );
 };
 
-
-
+// Dark Ethereal Background Component
+const DarkEtherealBackground = () => {
+  return (
+    <div className="fixed inset-0 w-full h-full">
+      <Component
+        color="rgba(15, 15, 15, 1)"
+        animation={{ scale: 120, speed: 80 }}
+        noise={{ opacity: 0.8, scale: 1.3 }}
+        sizing="fill"
+      />
+    </div>
+  );
+};
 
 
 export default function Portfolio() {
@@ -192,36 +204,36 @@ export default function Portfolio() {
         );
       case 1:
         return (
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-16">
-              <h2 className="text-4xl md:text-6xl font-light mb-6 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+          <div className="max-w-5xl mx-auto text-center px-8">
+            <div className="mb-20">
+              <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="ABOUT ME" />
               </h2>
               <div className="w-20 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
-            <div className="max-w-3xl mx-auto mb-16">
-              <p className="text-lg md:text-xl leading-loose font-light" style={{color: '#E0E0E0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '1.8'}}>
-                I am a passionate Cloud Engineer with expertise in designing, implementing, and managing scalable cloud infrastructure solutions. 
-                With hands-on experience across AWS, Azure, and Google Cloud Platform, I specialize in Infrastructure as Code, 
-                containerization, and DevOps practices. I&apos;m committed to building robust, secure, and cost-effective cloud solutions 
+            <div className="max-w-3xl mx-auto mb-24">
+              <p className="text-lg md:text-xl leading-loose font-light" style={{color: '#E0E0E0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '2'}}>
+                I am a passionate Cloud Engineer with expertise in designing, implementing, and managing scalable cloud infrastructure solutions.
+                With hands-on experience across AWS, Azure, and Google Cloud Platform, I specialize in Infrastructure as Code,
+                containerization, and DevOps practices. I&apos;m committed to building robust, secure, and cost-effective cloud solutions
                 that drive business growth and operational excellence.
               </p>
             </div>
             
             {/* Typographic Separator */}
-            <div className="flex items-center justify-center mb-16">
-              <div className="flex items-center space-x-6">
-                <div className="w-8 h-px bg-gradient-to-r from-transparent to-white/50"></div>
+            <div className="flex items-center justify-center mb-20">
+              <div className="flex items-center space-x-8">
+                <div className="w-12 h-px bg-gradient-to-r from-transparent to-white/50"></div>
                 <div className="text-white/50 text-2xl" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300'}}>
                   ✦
                 </div>
-                <div className="w-8 h-px bg-gradient-to-l from-transparent to-white/50"></div>
+                <div className="w-12 h-px bg-gradient-to-l from-transparent to-white/50"></div>
               </div>
             </div>
-            
+
             {/* Philosophy Quote */}
             <div className="max-w-5xl mx-auto">
-              <blockquote className="text-xl md:text-3xl font-light leading-relaxed italic mb-8" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.01em'}}>
+              <blockquote className="text-xl md:text-3xl font-light leading-relaxed italic mb-12" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.01em'}}>
                 <AnimatedText text="Technology should be invisible, infrastructure should be elegant, and solutions should be timeless." delay={200} />
               </blockquote>
               <p className="text-sm uppercase tracking-[0.2em]" style={{color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300'}}>
@@ -237,14 +249,14 @@ export default function Portfolio() {
         );
       case 2:
         return (
-          <div className="max-w-6xl mx-auto text-center">
-            <div className="mb-16">
-              <h2 className="text-4xl md:text-6xl font-light mb-6 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+          <div className="max-w-6xl mx-auto text-center px-8">
+            <div className="mb-20">
+              <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="SKILLS" />
               </h2>
               <div className="w-20 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-h-96 overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 max-h-96 overflow-y-auto px-4">
               {Object.entries(
                 skills.reduce((acc, skill) => {
                   if (!acc[skill.category]) acc[skill.category] = [];
@@ -252,11 +264,11 @@ export default function Portfolio() {
                   return acc;
                 }, {} as Record<string, Skill[]>)
               ).map(([category, categorySkills]: [string, Skill[]]) => (
-                <div key={category} className="mb-8">
-                  <h3 className="text-lg md:text-xl font-light mb-6 uppercase tracking-[0.1em]" style={{color: '#F5F5F5', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.08em'}}>
+                <div key={category} className="mb-10">
+                  <h3 className="text-lg md:text-xl font-light mb-8 uppercase tracking-[0.1em]" style={{color: '#F5F5F5', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.08em'}}>
                     {category.replace('_', ' ')}
                   </h3>
-                  <ul className="space-y-3">
+                  <ul className="space-y-4">
                     {categorySkills.map((skill: Skill) => {
                       const proficiencyLevels: Record<string, number> = {
                         'AWS': 5, 'Azure': 4, 'Google Cloud Platform': 4,
@@ -301,16 +313,16 @@ export default function Portfolio() {
       case 3:
         if (filteredProjects.length === 0) {
           return (
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="mb-16 text-center">
-                <h2 className="text-4xl md:text-6xl font-light mb-6 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+            <div className="max-w-5xl mx-auto text-center px-8">
+              <div className="mb-20 text-center">
+                <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                   <AnimatedText text="PROJECTS" />
                 </h2>
                 <div className="w-20 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
               </div>
-              
+
               {/* Category Filter */}
-              <div className="mb-12 text-center">
+              <div className="mb-16 text-center">
                 <div className="inline-flex items-center space-x-8">
                   {[
                     { key: 'devops', label: 'DEVOPS' },
@@ -345,18 +357,19 @@ export default function Portfolio() {
         }
 
         const currentProjectData = filteredProjects[currentProject];
-        
+
+
         return (
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-16 text-center">
-              <h2 className="text-4xl md:text-6xl font-light mb-6 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
+          <div className="max-w-5xl mx-auto text-center px-8">
+            <div className="mb-20 text-center">
+              <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-[0.15em] uppercase" style={{fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '300', letterSpacing: '0.1em'}}>
                 <AnimatedText text="PROJECTS" />
               </h2>
               <div className="w-20 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto"></div>
             </div>
-            
+
             {/* Category Filter */}
-            <div className="mb-12 text-center">
+            <div className="mb-16 text-center">
               <div className="inline-flex items-center space-x-8">
                 {[
                   { key: 'devops', label: 'DEVOPS' },
@@ -384,30 +397,30 @@ export default function Portfolio() {
             </div>
             
             {/* Current project display */}
-            <div className={`min-h-[400px] flex flex-col justify-center transition-all duration-300 ${
+            <div className={`min-h-[450px] flex flex-col justify-center transition-all duration-300 py-8 ${
               isProjectTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
             }`}>
-              <h3 className="text-2xl md:text-3xl font-light mb-6 tracking-wide" style={{color: '#F5F5F5', fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '400', letterSpacing: '0.02em'}}>
+              <h3 className="text-2xl md:text-4xl font-light mb-8 tracking-wide" style={{color: '#F5F5F5', fontFamily: 'Playfair Display, Georgia, serif', fontWeight: '400', letterSpacing: '0.02em'}}>
                 {currentProjectData.title}
               </h3>
-              <p className="mb-8 font-light leading-relaxed text-lg max-w-3xl mx-auto" style={{color: '#E0E0E0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '1.7'}}>
+              <p className="mb-10 font-light leading-relaxed text-lg max-w-3xl mx-auto" style={{color: '#E0E0E0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '1.9'}}>
                 {currentProjectData.description}
               </p>
               {currentProjectData.bulletPoints && (
-                <ul className="list-none mb-8 space-y-3 font-light text-base max-w-2xl mx-auto" style={{color: '#D0D0D0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '1.6'}}>
+                <ul className="list-none mb-10 space-y-4 font-light text-base max-w-2xl mx-auto" style={{color: '#D0D0D0', fontFamily: 'Crimson Text, Georgia, serif', fontWeight: '300', lineHeight: '1.7'}}>
                   {currentProjectData.bulletPoints.map((point, idx) => (
                     <li key={idx} className="flex items-start">
-                      <span className="text-white mr-3">•</span>
+                      <span className="text-white mr-4">•</span>
                       <span>{point}</span>
                     </li>
                   ))}
                 </ul>
               )}
-              <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <div className="flex flex-wrap justify-center gap-4 mb-10">
                 {currentProjectData.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 bg-transparent border text-sm font-light uppercase tracking-wider" style={{borderColor: 'rgba(208, 208, 208, 0.3)', color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.03em'}}
+                    className="px-4 py-2 bg-transparent border text-sm font-light uppercase tracking-wider hover:border-white/50 transition-all duration-300" style={{borderColor: 'rgba(208, 208, 208, 0.3)', color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}
                   >
                     {tech}
                   </span>
@@ -417,7 +430,7 @@ export default function Portfolio() {
                 href={currentProjectData.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center transition-all duration-300 font-light hover:text-white hover:translate-x-1 uppercase tracking-wide text-sm mx-auto" style={{color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em', cursor: 'none'}}
+                className="inline-flex items-center transition-all duration-300 font-light hover:text-white hover:translate-x-1 uppercase tracking-wide text-sm mx-auto" style={{color: '#D0D0D0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.08em', cursor: 'none'}}
               >
                 View on GitHub →
               </a>
@@ -620,12 +633,14 @@ export default function Portfolio() {
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="h-screen overflow-hidden relative" 
+      className="h-screen overflow-hidden relative"
       style={{backgroundColor: '#050505'}}
     >
-      
+      {/* Dark Ethereal Background */}
+      <DarkEtherealBackground />
+
       {/* Fixed Bottom-Right Social Menu */}
       <div className="fixed bottom-8 right-8 z-50">
         <div className="flex items-center space-x-4">
@@ -687,8 +702,8 @@ export default function Portfolio() {
       </div>
 
       {/* Main content container */}
-      <div 
-        className={`h-full flex items-center justify-center px-4 transition-all duration-700 ease-in-out ${
+      <div
+        className={`h-full flex items-center justify-center px-4 transition-all duration-700 ease-in-out relative z-30 ${
           isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
         }`}
       >
