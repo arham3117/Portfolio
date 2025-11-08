@@ -631,7 +631,7 @@ export default function Portfolio() {
       <div className="fixed bottom-8 right-8 z-50">
         <div className="flex items-center space-x-4">
           <a
-            href="https://www.linkedin.com/in/muhammad-arham-profile"
+            href="https://www.linkedin.com/in/ma28b/"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative flex items-center justify-center w-10 h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 hover:w-12 hover:h-12 hover:scale-110 transition-all duration-500"
@@ -639,14 +639,14 @@ export default function Portfolio() {
           >
             <Linkedin className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
             {/* Tooltip */}
-            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap" 
+            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap"
                  style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
               LinkedIn
             </div>
           </a>
-          
+
           <a
-            href="https://github.com/<your-github-username>"
+            href="https://github.com/arham3117"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative flex items-center justify-center w-10 h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 hover:w-12 hover:h-12 hover:scale-110 transition-all duration-500"
@@ -654,7 +654,7 @@ export default function Portfolio() {
           >
             <Github className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
             {/* Tooltip */}
-            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap" 
+            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap"
                  style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
               GitHub
             </div>

@@ -4,12 +4,11 @@ import { MeshGradient } from "@paper-design/shaders-react"
 
 export function DarkShaderBackground() {
   return (
-    <div className="fixed inset-0 w-full h-full">
+    <div className="fixed inset-0 w-full h-full bg-[#050505]">
       <MeshGradient
         className="w-full h-full absolute inset-0"
         colors={["#000000", "#0a0a0a", "#1a1a1a", "#2a2a2a"]}
         speed={0.5}
-        backgroundColor="#050505"
       />
 
       {/* Subtle lighting overlay effects */}
