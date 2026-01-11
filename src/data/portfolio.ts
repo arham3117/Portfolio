@@ -29,15 +29,39 @@ export const skills: Skill[] = [
 
 export const projects: Project[] = [
   {
-    title: 'Multi-Environment AWS Infrastructure',
-    description: 'Infrastructure-as-Code solution for provisioning AWS resources across multiple environments using Terraform modules.',
+    title: '2-Tier Web Application Architecture',
+    description: 'Production-ready AWS infrastructure with Flask web application in public tier and managed MySQL RDS in private tier.',
     bulletPoints: [
-      'Automated deployment of DynamoDB, EC2, and S3 services across dev, staging, and production',
-      'Modular Terraform configuration enabling reusable infrastructure components',
-      'Environment-specific variable management for consistent deployments'
+      'Deployed multi-AZ VPC with public/private subnets for network segmentation',
+      'Automated EC2 Flask deployment with RDS MySQL backend using Terraform modules',
+      'Implemented AWS Secrets Manager for credential storage with AES-256 encryption'
     ],
-    githubUrl: 'https://github.com/arham3117/Multi-Environment-AWS-Infrastructure',
-    technologies: ['Terraform', 'AWS', 'HCL', 'DynamoDB', 'EC2', 'S3'],
+    githubUrl: 'https://github.com/arham3117/Terraform/tree/main/Projects/2-Tier-Architecture',
+    technologies: ['Terraform', 'AWS', 'VPC', 'RDS', 'EC2', 'Flask', 'MySQL'],
+    category: 'cloud'
+  },
+  {
+    title: 'Static Website Hosting with CloudFront CDN',
+    description: 'Secure global content delivery solution using S3 and CloudFront with Origin Access Control.',
+    bulletPoints: [
+      'Deployed S3-hosted static website with all public access blocked for security',
+      'Configured CloudFront CDN for low-latency global delivery with automatic HTTPS redirection',
+      'Implemented Origin Access Control (OAC) for secure S3-CloudFront authentication'
+    ],
+    githubUrl: 'https://github.com/arham3117/Terraform/tree/main/Projects/Static-Website-with-S3-CloudFront',
+    technologies: ['Terraform', 'AWS', 'S3', 'CloudFront', 'OAC', 'HTTPS'],
+    category: 'cloud'
+  },
+  {
+    title: 'Serverless Image Processing Pipeline',
+    description: 'Event-driven serverless architecture for automated image processing using AWS Lambda and S3.',
+    bulletPoints: [
+      'Built Lambda function generating 5 image variants (JPEG, WebP, PNG, thumbnail) using Pillow',
+      'Implemented S3 event notifications triggering automated image processing workflows',
+      'Configured IAM roles, encrypted S3 buckets with versioning, and CloudWatch monitoring'
+    ],
+    githubUrl: 'https://github.com/arham3117/Terraform/tree/main/Projects/Image-Processing-with-Lambda-Terraform',
+    technologies: ['Terraform', 'AWS Lambda', 'S3', 'Python', 'Pillow', 'CloudWatch'],
     category: 'cloud'
   },
   {
@@ -53,52 +77,28 @@ export const projects: Project[] = [
     category: 'devops'
   },
   {
-    title: 'Terraform Practice & Real-World Projects',
-    description: 'Comprehensive collection of Terraform implementations demonstrating IaC best practices and real-world cloud infrastructure patterns.',
+    title: 'Multi-Environment IaC with Terraform & Ansible',
+    description: 'Automated infrastructure deployment across dev, staging, and production using Terraform and Ansible configuration management.',
     bulletPoints: [
-      'Built practical examples covering state management, variables, and lifecycle configurations',
-      'Implemented dynamic blocks, built-in functions, and data sources for advanced infrastructure',
-      'Created reusable modules for multi-cloud deployments and automation'
+      'Provisioned environment-specific infrastructure (2-3 instances) with auto-scaling configurations',
+      'Automated Ansible inventory updates from Terraform state with timestamped backups',
+      'Deployed Nginx with custom landing pages across dev (t2.micro), staging (t2.small), and prod (t2.medium)'
     ],
-    githubUrl: 'https://github.com/arham3117/Terraform',
-    technologies: ['Terraform', 'HCL', 'AWS', 'Python', 'Shell'],
+    githubUrl: 'https://github.com/arham3117/Terraform/tree/main/Projects/Multi-Env-Iac-with-Ansible',
+    technologies: ['Terraform', 'Ansible', 'AWS', 'EC2', 'Nginx', 'Shell'],
     category: 'devops'
   },
   {
-    title: 'Terraform Full Course - AWS Projects',
-    description: 'Comprehensive Terraform course featuring 30+ lessons with hands-on AWS infrastructure projects and advanced IaC patterns.',
+    title: 'Multi-Environment AWS Infrastructure',
+    description: 'Modular Terraform infrastructure for provisioning AWS resources across multiple environments with reusable components.',
     bulletPoints: [
-      'Developed 10+ mini-projects including VPC peering, EKS clusters, Lambda functions, and RDS databases',
-      'Implemented 3-tier architecture, GitOps workflows, and infrastructure drift detection',
-      'Integrated Terraform Cloud with CI/CD pipelines for automated infrastructure deployment'
+      'Automated deployment of DynamoDB, EC2, and S3 services across dev, staging, and production',
+      'Created reusable Terraform modules for consistent infrastructure provisioning',
+      'Implemented environment-specific variable management for scalable deployments'
     ],
-    githubUrl: 'https://github.com/arham3117/Terraform-Full-Course-Aws',
-    technologies: ['Terraform', 'AWS', 'EKS', 'RDS', 'Lambda', 'CI/CD', 'ArgoCD'],
-    category: 'cloud'
-  },
-  {
-    title: 'DevOps Automation with Shell Scripts',
-    description: 'Collection of shell scripts for system administration, monitoring, and deployment automation in DevOps workflows.',
-    bulletPoints: [
-      'Created disk space and RAM monitoring scripts for proactive system health tracking',
-      'Automated project archival and backup workflows for data management',
-      'Developed modular scripts for routine operational tasks in server environments'
-    ],
-    githubUrl: 'https://github.com/arham3117/Shell_Scripts',
-    technologies: ['Bash', 'Shell Scripting', 'Linux', 'System Administration'],
+    githubUrl: 'https://github.com/arham3117/Multi-Environment-AWS-Infrastructure',
+    technologies: ['Terraform', 'AWS', 'HCL', 'DynamoDB', 'EC2', 'S3'],
     category: 'devops'
-  },
-  {
-    title: 'Portfolio Website',
-    description: 'Modern portfolio website built with Next.js 16, React 19, and TypeScript featuring custom animations and shader effects.',
-    bulletPoints: [
-      'Implemented custom cursor system with mix-blend-mode and SVG shader backgrounds',
-      'Built responsive design with Tailwind CSS 4 and Framer Motion animations',
-      'Deployed on Vercel with automated CI/CD from GitHub'
-    ],
-    githubUrl: 'https://github.com/arham3117/Portfolio',
-    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel'],
-    category: 'cloud'
   },
   {
     title: 'Hand Gesture Recognition System',
