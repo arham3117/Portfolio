@@ -29,75 +29,75 @@ export const skills: Skill[] = [
 
 export const projects: Project[] = [
   {
-    title: 'Multi-Cloud Infrastructure Automation',
-    description: 'Automated infrastructure deployment across AWS, Azure, and GCP using Terraform modules with standardized configurations.',
+    title: 'Multi-Environment AWS Infrastructure',
+    description: 'Infrastructure-as-Code solution for provisioning AWS resources across multiple environments using Terraform modules.',
     bulletPoints: [
-      'Reduced deployment time by 75% through automation',
-      'Implemented cost optimization strategies saving $50k annually',
-      'Created reusable Terraform modules for consistent deployments'
+      'Automated deployment of DynamoDB, EC2, and S3 services across dev, staging, and production',
+      'Modular Terraform configuration enabling reusable infrastructure components',
+      'Environment-specific variable management for consistent deployments'
     ],
-    githubUrl: 'https://github.com/<your-github-username>/multi-cloud-terraform',
-    technologies: ['Terraform', 'AWS', 'Azure', 'GCP', 'CI/CD'],
+    githubUrl: 'https://github.com/arham3117/Multi-Environment-AWS-Infrastructure',
+    technologies: ['Terraform', 'AWS', 'HCL', 'DynamoDB', 'EC2', 'S3'],
     category: 'cloud'
   },
   {
-    title: 'Kubernetes Monitoring Stack',
-    description: 'Comprehensive monitoring solution for Kubernetes clusters using Prometheus, Grafana, and custom alerting rules.',
+    title: 'DevSecOps CI/CD with EKS & ArgoCD',
+    description: 'Complete DevSecOps pipeline integrating CI/CD workflows with Kubernetes deployment on AWS EKS using GitOps principles.',
     bulletPoints: [
-      'Implemented cluster-wide monitoring for 50+ services',
-      'Created custom dashboards for performance metrics',
-      'Set up automated alerting for critical system events'
+      'Implemented declarative GitOps deployment with ArgoCD for automated application delivery',
+      'Provisioned AWS EKS cluster infrastructure using Terraform',
+      'Containerized Java application with Docker and automated build pipeline with Maven'
     ],
-    githubUrl: 'https://github.com/<your-github-username>/k8s-monitoring',
-    technologies: ['Kubernetes', 'Prometheus', 'Grafana', 'Helm', 'AlertManager'],
+    githubUrl: 'https://github.com/arham3117/DevSecOps---CICD-with-EKS-ArgoCD',
+    technologies: ['AWS EKS', 'ArgoCD', 'Terraform', 'Kubernetes', 'Docker', 'GitOps'],
     category: 'devops'
   },
   {
-    title: 'CI/CD Pipeline Optimization',
-    description: 'Streamlined deployment pipelines using GitLab CI and Jenkins with automated testing and security scanning.',
+    title: 'Terraform Practice & Real-World Projects',
+    description: 'Comprehensive collection of Terraform implementations demonstrating IaC best practices and real-world cloud infrastructure patterns.',
     bulletPoints: [
-      'Reduced deployment failures by 90% through automated testing',
-      'Integrated security scanning in CI/CD pipeline',
-      'Achieved zero-downtime deployments using blue-green strategy'
+      'Built practical examples covering state management, variables, and lifecycle configurations',
+      'Implemented dynamic blocks, built-in functions, and data sources for advanced infrastructure',
+      'Created reusable modules for multi-cloud deployments and automation'
     ],
-    githubUrl: 'https://github.com/<your-github-username>/cicd-optimization',
-    technologies: ['GitLab CI', 'Jenkins', 'Docker', 'SonarQube', 'Trivy'],
+    githubUrl: 'https://github.com/arham3117/Terraform',
+    technologies: ['Terraform', 'HCL', 'AWS', 'Python', 'Shell'],
     category: 'devops'
   },
   {
-    title: 'AWS Cost Optimization Platform',
-    description: 'Automated cost optimization platform using AWS Lambda and CloudWatch to monitor and reduce cloud spending.',
+    title: 'Terraform Full Course - AWS Projects',
+    description: 'Comprehensive Terraform course featuring 30+ lessons with hands-on AWS infrastructure projects and advanced IaC patterns.',
     bulletPoints: [
-      'Identified and eliminated $30k in unused resources annually',
-      'Automated rightsizing recommendations for EC2 instances',
-      'Created real-time cost alerting system with Slack integration'
+      'Developed 10+ mini-projects including VPC peering, EKS clusters, Lambda functions, and RDS databases',
+      'Implemented 3-tier architecture, GitOps workflows, and infrastructure drift detection',
+      'Integrated Terraform Cloud with CI/CD pipelines for automated infrastructure deployment'
     ],
-    githubUrl: 'https://github.com/<your-github-username>/aws-cost-optimizer',
-    technologies: ['AWS Lambda', 'CloudWatch', 'Python', 'Cost Explorer API', 'Slack API'],
+    githubUrl: 'https://github.com/arham3117/Terraform-Full-Course-Aws',
+    technologies: ['Terraform', 'AWS', 'EKS', 'RDS', 'Lambda', 'CI/CD', 'ArgoCD'],
     category: 'cloud'
   },
   {
-    title: 'Infrastructure as Code Pipeline',
-    description: 'Complete GitOps workflow for infrastructure management using Terraform, GitHub Actions, and automated testing.',
+    title: 'DevOps Automation with Shell Scripts',
+    description: 'Collection of shell scripts for system administration, monitoring, and deployment automation in DevOps workflows.',
     bulletPoints: [
-      'Implemented infrastructure drift detection and remediation',
-      'Created automated testing suite for Terraform configurations',
-      'Established secure secrets management with HashiCorp Vault'
+      'Created disk space and RAM monitoring scripts for proactive system health tracking',
+      'Automated project archival and backup workflows for data management',
+      'Developed modular scripts for routine operational tasks in server environments'
     ],
-    githubUrl: 'https://github.com/<your-github-username>/iac-pipeline',
-    technologies: ['Terraform', 'GitHub Actions', 'HashiCorp Vault', 'Terratest', 'Python'],
+    githubUrl: 'https://github.com/arham3117/Shell_Scripts',
+    technologies: ['Bash', 'Shell Scripting', 'Linux', 'System Administration'],
     category: 'devops'
   },
   {
-    title: 'Serverless Microservices Architecture',
-    description: 'Built scalable serverless architecture on AWS using Lambda, API Gateway, and DynamoDB with automated deployment.',
+    title: 'Portfolio Website',
+    description: 'Modern portfolio website built with Next.js 16, React 19, and TypeScript featuring custom animations and shader effects.',
     bulletPoints: [
-      'Designed event-driven microservices handling 10M+ requests/month',
-      'Implemented auto-scaling with 99.9% uptime SLA',
-      'Reduced infrastructure costs by 60% compared to traditional hosting'
+      'Implemented custom cursor system with mix-blend-mode and SVG shader backgrounds',
+      'Built responsive design with Tailwind CSS 4 and Framer Motion animations',
+      'Deployed on Vercel with automated CI/CD from GitHub'
     ],
-    githubUrl: 'https://github.com/<your-github-username>/serverless-microservices',
-    technologies: ['AWS Lambda', 'API Gateway', 'DynamoDB', 'CloudFormation', 'Node.js'],
+    githubUrl: 'https://github.com/arham3117/Portfolio',
+    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel'],
     category: 'cloud'
   },
   {
