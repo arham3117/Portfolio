@@ -99,6 +99,42 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/<your-github-username>/serverless-microservices',
     technologies: ['AWS Lambda', 'API Gateway', 'DynamoDB', 'CloudFormation', 'Node.js'],
     category: 'cloud'
+  },
+  {
+    title: 'Hand Gesture Recognition System',
+    description: 'Real-time hand gesture recognition system that classifies five distinct hand gestures using computer vision and deep learning.',
+    bulletPoints: [
+      'Achieved 99.83% accuracy with only 2 misclassifications across 1,200 test samples',
+      'Implemented CNN architecture with three convolutional blocks and dropout regularization',
+      'Real-time inference at approximately 30 FPS performance'
+    ],
+    githubUrl: 'https://github.com/arham3117/Gestures',
+    technologies: ['TensorFlow', 'Keras', 'OpenCV', 'Python', 'NumPy', 'Scikit-learn'],
+    category: 'aiml'
+  },
+  {
+    title: 'CineMatch - Movie Recommendation System',
+    description: 'SQL-based movie recommendation system implementing collaborative filtering, content-based filtering, and hybrid approaches.',
+    bulletPoints: [
+      'Hybrid approach achieved 85% accuracy with 98% coverage',
+      'Built with 9 normalized tables and 35 stored procedures',
+      'Implemented 11 automated triggers for data consistency'
+    ],
+    githubUrl: 'https://github.com/arham3117/CineMatch',
+    technologies: ['MySQL', 'SQL', 'Python', 'Database Design', 'Recommendation Systems'],
+    category: 'aiml'
+  },
+  {
+    title: 'FairSense - NLP Bias Detection & Mitigation',
+    description: 'Comprehensive system to identify, measure, and reduce bias in pre-trained NLP sentiment analysis models.',
+    bulletPoints: [
+      'Achieved 77.9% bias reduction through name anonymization and score calibration',
+      'Reduced bias severity from 21.06/100 (moderate) to 4.66/100 (low)',
+      'Eliminated all biased test pairs and achieved perfect demographic parity (0.0000)'
+    ],
+    githubUrl: 'https://github.com/arham3117/FairSense',
+    technologies: ['Python', 'Transformers', 'PyTorch', 'Hugging Face', 'NLP', 'Pandas'],
+    category: 'aiml'
   }
 ];
 

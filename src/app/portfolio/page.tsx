@@ -55,7 +55,7 @@ export default function Portfolio() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentProject, setCurrentProject] = useState(0);
   const [isProjectTransitioning, setIsProjectTransitioning] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<'devops' | 'cloud'>('devops');
+  const [selectedCategory, setSelectedCategory] = useState<'devops' | 'cloud' | 'aiml'>('devops');
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef<number>(0);
   const touchEndY = useRef<number>(0);
@@ -346,14 +346,15 @@ export default function Portfolio() {
                 <div className="inline-flex items-center space-x-8">
                   {[
                     { key: 'devops', label: 'DEVOPS' },
-                    { key: 'cloud', label: 'CLOUD' }
+                    { key: 'cloud', label: 'CLOUD' },
+                    { key: 'aiml', label: 'AI/ML' }
                   ].map(({ key, label }) => (
                     <button
                       key={key}
-                      onClick={() => setSelectedCategory(key as 'devops' | 'cloud')}
+                      onClick={() => setSelectedCategory(key as 'devops' | 'cloud' | 'aiml')}
                       className={`px-4 py-2 text-sm font-light uppercase tracking-wider transition-all duration-300${
-                        selectedCategory === key 
-                          ? ' text-white border-b border-white' 
+                        selectedCategory === key
+                          ? ' text-white border-b border-white'
                           : ' text-gray-400 hover:text-gray-200'
                       }`}
                       style={{
@@ -393,11 +394,12 @@ export default function Portfolio() {
               <div className="inline-flex items-center space-x-8">
                 {[
                   { key: 'devops', label: 'DEVOPS' },
-                  { key: 'cloud', label: 'CLOUD' }
+                  { key: 'cloud', label: 'CLOUD' },
+                  { key: 'aiml', label: 'AI/ML' }
                 ].map(({ key, label }) => (
                   <button
                     key={key}
-                    onClick={() => setSelectedCategory(key as 'devops' | 'cloud')}
+                    onClick={() => setSelectedCategory(key as 'devops' | 'cloud' | 'aiml')}
                     className={`px-6 py-3 text-base md:text-lg font-light uppercase tracking-wider transition-all duration-300${
                       selectedCategory === key
                         ? ' text-white border-b-2 border-white'
