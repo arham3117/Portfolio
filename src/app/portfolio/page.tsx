@@ -57,6 +57,7 @@ export default function Portfolio() {
   const [isProjectTransitioning, setIsProjectTransitioning] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<'devops' | 'cloud' | 'aiml'>('devops');
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef<number>(0);
   const touchEndY = useRef<number>(0);
   
@@ -77,6 +78,10 @@ export default function Portfolio() {
     setTimeout(() => {
       setCurrentSection(prev => prev + 1);
       setIsTransitioning(false);
+      // Reset scroll position when changing sections
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop = 0;
+      }
     }, 300);
   }, [currentSection, isTransitioning, sections.length]);
 
@@ -86,6 +91,10 @@ export default function Portfolio() {
     setTimeout(() => {
       setCurrentSection(prev => prev - 1);
       setIsTransitioning(false);
+      // Reset scroll position when changing sections
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop = 0;
+      }
     }, 300);
   }, [currentSection, isTransitioning]);
 
@@ -124,7 +133,36 @@ export default function Portfolio() {
       }
     };
 
+    const isScrollable = (element: HTMLElement | null): boolean => {
+      if (!element) return false;
+      return element.scrollHeight > element.clientHeight;
+    };
+
+    const isAtTop = (element: HTMLElement | null): boolean => {
+      if (!element) return true;
+      return element.scrollTop <= 0;
+    };
+
+    const isAtBottom = (element: HTMLElement | null): boolean => {
+      if (!element) return true;
+      return Math.abs(element.scrollHeight - element.clientHeight - element.scrollTop) < 1;
+    };
+
     const handleWheel = (e: WheelEvent) => {
+      const scrollContainer = scrollContainerRef.current;
+
+      // If content is scrollable, check scroll position
+      if (isScrollable(scrollContainer)) {
+        if (e.deltaY > 0 && !isAtBottom(scrollContainer)) {
+          // Scrolling down but not at bottom - allow normal scroll
+          return;
+        } else if (e.deltaY < 0 && !isAtTop(scrollContainer)) {
+          // Scrolling up but not at top - allow normal scroll
+          return;
+        }
+      }
+
+      // At boundary or not scrollable - change section
       e.preventDefault();
       if (e.deltaY > 0) {
         nextSection();
@@ -144,13 +182,29 @@ export default function Portfolio() {
     const handleTouchEnd = () => {
       const minSwipeDistance = 50; // Minimum distance for a swipe
       const swipeDistance = touchStartY.current - touchEndY.current;
+      const scrollContainer = scrollContainerRef.current;
 
       if (Math.abs(swipeDistance) > minSwipeDistance) {
+        // Check if content is scrollable
+        if (isScrollable(scrollContainer)) {
+          // Only navigate if at boundaries
+          if (swipeDistance > 0 && !isAtBottom(scrollContainer)) {
+            // Swiping up but not at bottom - allow scroll, don't navigate
+            touchStartY.current = 0;
+            touchEndY.current = 0;
+            return;
+          } else if (swipeDistance < 0 && !isAtTop(scrollContainer)) {
+            // Swiping down but not at top - allow scroll, don't navigate
+            touchStartY.current = 0;
+            touchEndY.current = 0;
+            return;
+          }
+        }
+
+        // At boundary or not scrollable - navigate
         if (swipeDistance > 0) {
-          // Swiped up - go to next section
           nextSection();
         } else {
-          // Swiped down - go to previous section
           prevSection();
         }
       }
@@ -725,6 +779,7 @@ export default function Portfolio() {
 
       {/* Main content container */}
       <div
+        ref={scrollContainerRef}
         className={`h-full flex flex-col justify-center items-center px-4 py-8 sm:py-12 overflow-y-auto transition-all duration-700 ease-in-out relative z-30 ${
           isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
         }`}
