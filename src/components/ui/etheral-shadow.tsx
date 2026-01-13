@@ -113,7 +113,7 @@ export function Component({
             <div
                 style={{
                     position: "absolute",
-                    inset: -displacementScale,
+                    inset: -Math.min(displacementScale, 50),
                     filter: animationEnabled ? `url(#${id}) blur(4px)` : "none"
                 }}
             >
@@ -160,9 +160,13 @@ export function Component({
                     style={{
                         backgroundColor: color,
                         maskImage: `url('/shadow-mask.png')`,
+                        WebkitMaskImage: `url('/shadow-mask.png')`,
                         maskSize: sizing === "stretch" ? "100% 100%" : "cover",
+                        WebkitMaskSize: sizing === "stretch" ? "100% 100%" : "cover",
                         maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
                         maskPosition: "center",
+                        WebkitMaskPosition: "center",
                         width: "100%",
                         height: "100%"
                     }}

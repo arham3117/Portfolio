@@ -1,14 +1,27 @@
 'use client';
 
 import { Component } from "@/components/ui/etheral-shadow";
+import { useEffect, useState } from 'react';
 
 const DemoOne = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <div className="absolute inset-0 w-full h-full">
       <Component
         color="rgba(128, 128, 128, 1)"
-        animation={{ scale: 100, speed: 90 }}
-        noise={{ opacity: 1, scale: 1.2 }}
+        animation={isMobile ? { scale: 30, speed: 60 } : { scale: 100, speed: 90 }}
+        noise={{ opacity: isMobile ? 0.5 : 1, scale: isMobile ? 1 : 1.2 }}
         sizing="fill"
       />
     </div>
