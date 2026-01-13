@@ -4,8 +4,9 @@ import { skills, projects, certifications } from '@/data/portfolio';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import type { Skill } from '@/types';
-import { Linkedin, Github, FileText } from 'lucide-react';
+import { Linkedin as LinkedinIcon, Github as GithubIcon, FileText } from 'lucide-react';
 import { DarkShaderBackground } from "@/components/ui/dark-shader-background";
+import { motion } from 'framer-motion';
 
 // Staggered Text Animation Component
 const AnimatedText = ({ text, className, style, delay = 0 }: { text: string; className?: string; style?: React.CSSProperties; delay?: number }) => {
@@ -39,7 +40,7 @@ const AnimatedText = ({ text, className, style, delay = 0 }: { text: string; cla
           }`}
           style={{
             transitionDelay: `${index * 50}ms`,
-            color: isVisible ? '#F5F5F5' : '#F5F5F5'
+            color: '#F5F5F5'
           }}
         >
           {char === ' ' ? '\u00A0' : char}
@@ -51,24 +52,22 @@ const AnimatedText = ({ text, className, style, delay = 0 }: { text: string; cla
 
 
 export default function Portfolio() {
-  const [currentSection, setCurrentSection] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentProject, setCurrentProject] = useState(0);
   const [isProjectTransitioning, setIsProjectTransitioning] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<'devops' | 'cloud' | 'aiml'>('devops');
   const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const touchStartY = useRef<number>(0);
-  const touchEndY = useRef<number>(0);
-
-  const sections = [
-    'navigation',
-    'about',
-    'skills',
-    'projects',
-    'certifications'
-  ];
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const skillsRef = useRef<HTMLDivElement>(null);
+  const projectsRef = useRef<HTMLDivElement>(null);
+  const certificationsRef = useRef<HTMLDivElement>(null);
+  const [visibleSections, setVisibleSections] = useState<Record<string, number>>({
+    about: 1,
+    skills: 0,
+    projects: 0,
+    certifications: 0
+  });
 
   // Detect mobile device on mount
   useEffect(() => {
@@ -83,34 +82,74 @@ export default function Portfolio() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Scroll-based opacity tracking - smooth fade as you scroll
+  useEffect(() => {
+    if (isMobile) return; // Skip for mobile
+
+    const handleScroll = () => {
+      const container = scrollContainerRef.current;
+      if (!container) return;
+
+      const refs = [
+        { ref: aboutRef, name: 'about' },
+        { ref: skillsRef, name: 'skills' },
+        { ref: projectsRef, name: 'projects' },
+        { ref: certificationsRef, name: 'certifications' }
+      ];
+
+      const newVisibleSections: Record<string, number> = {};
+
+      refs.forEach(({ ref, name }) => {
+        if (ref.current) {
+          const rect = ref.current.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const sectionTop = rect.top;
+          const sectionBottom = rect.bottom;
+          const sectionHeight = rect.height;
+
+          let opacity = 1;
+
+          // Fade out as section scrolls up past viewport
+          if (sectionTop < 0 && sectionBottom > 0) {
+            const visiblePortion = sectionBottom / sectionHeight;
+            opacity = Math.max(0.05, visiblePortion);
+          }
+          // Almost invisible if above viewport
+          else if (sectionBottom <= 0) {
+            opacity = 0.05;
+          }
+          // Fade in as section enters from bottom
+          else if (sectionTop < viewportHeight && sectionTop > viewportHeight * 0.3) {
+            const progress = 1 - ((sectionTop - viewportHeight * 0.3) / (viewportHeight * 0.7));
+            opacity = Math.max(0.05, Math.min(1, progress));
+          }
+          // Below viewport
+          else if (sectionTop >= viewportHeight) {
+            opacity = 0.05;
+          }
+
+          newVisibleSections[name] = opacity;
+        }
+      });
+
+      setVisibleSections(newVisibleSections);
+    };
+
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      handleScroll(); // Initial calculation
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [isMobile]);
+
   // Filter projects based on selected category
   const filteredProjects = projects.filter(project => project.category === selectedCategory);
-
-  const nextSection = useCallback(() => {
-    if (isTransitioning || currentSection >= sections.length - 1) return;
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentSection(prev => prev + 1);
-      setIsTransitioning(false);
-      // Reset scroll position when changing sections
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTop = 0;
-      }
-    }, 300);
-  }, [currentSection, isTransitioning, sections.length]);
-
-  const prevSection = useCallback(() => {
-    if (isTransitioning || currentSection <= 0) return;
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentSection(prev => prev - 1);
-      setIsTransitioning(false);
-      // Reset scroll position when changing sections
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTop = 0;
-      }
-    }, 300);
-  }, [currentSection, isTransitioning]);
 
   const changeProject = useCallback((newIndex: number) => {
     if (isProjectTransitioning || newIndex === currentProject) return;
@@ -136,164 +175,10 @@ export default function Portfolio() {
     setCurrentProject(0);
   }, [selectedCategory]);
 
-  useEffect(() => {
-    // Skip section navigation on mobile - use simple continuous scroll
-    if (isMobile) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown' || e.key === ' ') {
-        e.preventDefault();
-        nextSection();
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        prevSection();
-      }
-    };
-
-    const isScrollable = (element: HTMLElement | null): boolean => {
-      if (!element) return false;
-      return element.scrollHeight > element.clientHeight;
-    };
-
-    const isAtTop = (element: HTMLElement | null): boolean => {
-      if (!element) return true;
-      return element.scrollTop <= 0;
-    };
-
-    const isAtBottom = (element: HTMLElement | null): boolean => {
-      if (!element) return true;
-      return Math.abs(element.scrollHeight - element.clientHeight - element.scrollTop) < 1;
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      const scrollContainer = scrollContainerRef.current;
-
-      // If content is scrollable, check scroll position
-      if (isScrollable(scrollContainer)) {
-        if (e.deltaY > 0 && !isAtBottom(scrollContainer)) {
-          // Scrolling down but not at bottom - allow normal scroll
-          return;
-        } else if (e.deltaY < 0 && !isAtTop(scrollContainer)) {
-          // Scrolling up but not at top - allow normal scroll
-          return;
-        }
-      }
-
-      // At boundary or not scrollable - change section
-      e.preventDefault();
-      if (e.deltaY > 0) {
-        nextSection();
-      } else {
-        prevSection();
-      }
-    };
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY.current = e.touches[0].clientY;
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      touchEndY.current = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = () => {
-      const minSwipeDistance = 50; // Minimum distance for a swipe
-      const swipeDistance = touchStartY.current - touchEndY.current;
-      const scrollContainer = scrollContainerRef.current;
-
-      if (Math.abs(swipeDistance) > minSwipeDistance) {
-        // Check if content is scrollable
-        if (isScrollable(scrollContainer)) {
-          // Only navigate if at boundaries
-          if (swipeDistance > 0 && !isAtBottom(scrollContainer)) {
-            // Swiping up but not at bottom - allow scroll, don't navigate
-            touchStartY.current = 0;
-            touchEndY.current = 0;
-            return;
-          } else if (swipeDistance < 0 && !isAtTop(scrollContainer)) {
-            // Swiping down but not at top - allow scroll, don't navigate
-            touchStartY.current = 0;
-            touchEndY.current = 0;
-            return;
-          }
-        }
-
-        // At boundary or not scrollable - navigate
-        if (swipeDistance > 0) {
-          nextSection();
-        } else {
-          prevSection();
-        }
-      }
-
-      // Reset values
-      touchStartY.current = 0;
-      touchEndY.current = 0;
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [nextSection, prevSection, isMobile]);
-
 
   const getSectionContent = (sectionIndex: number) => {
     switch (sectionIndex) {
       case 0:
-        return (
-          <div className="text-center">
-            <Link 
-              href="/" 
-              className="inline-block px-10 py-4 bg-transparent border transition-all duration-300 tracking-[0.2em] font-light hover:bg-gray-800 hover:text-white uppercase" 
-              style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontSize: '0.75rem', fontWeight: '300', letterSpacing: '0.15em', cursor: 'none'}}
-            >
-              ← Back to Home
-            </Link>
-
-            <div className="mt-12">
-              <p className="text-sm uppercase tracking-[0.2em] text-gray-400" style={{fontFamily: 'Montserrat, sans-serif', fontWeight: '300'}}>
-                Navigate using arrow keys, mouse wheel, or touch swipe
-              </p>
-              <div className="flex justify-center mt-4">
-                <div className="w-6 h-10 border border-gray-400 rounded-full flex justify-center">
-                  <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce"></div>
-                </div>
-              </div>
-              
-              {/* Elegant decoration under mouse */}
-              <div className="flex justify-center mt-8">
-                <div className="flex flex-col items-center space-y-6">
-                  <div className="flex items-center space-x-6">
-                    <div className="w-12 h-px bg-gradient-to-r from-transparent to-white/30"></div>
-                    <div className="w-1 h-1 bg-white/40 rounded-full animate-pulse"></div>
-                    <div className="w-16 h-px bg-gradient-to-r from-white/30 via-white/50 to-white/30"></div>
-                    <div className="w-1 h-1 bg-white/40 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                    <div className="w-12 h-px bg-gradient-to-l from-transparent to-white/30"></div>
-                  </div>
-                  <div className="text-xs text-white/30 tracking-[0.2em]" style={{fontFamily: 'Montserrat, sans-serif', fontWeight: '300'}}>
-                    EXPLORE
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Bottom Decoration */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-              <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse"></div>
-            </div>
-          </div>
-        );
-      case 1:
         return (
           <div className="max-w-6xl mx-auto text-center px-6 md:px-8 w-full">
             <div className="mb-12 sm:mb-16 md:mb-20">
@@ -338,7 +223,7 @@ export default function Portfolio() {
             </div>
           </div>
         );
-      case 2:
+      case 1:
         return (
           <div className="max-w-7xl mx-auto text-center px-6 md:px-8 w-full">
             <div className="mb-8 sm:mb-12 md:mb-16">
@@ -401,7 +286,7 @@ export default function Portfolio() {
             </div>
           </div>
         );
-      case 3:
+      case 2:
         if (filteredProjects.length === 0) {
           return (
             <div className="max-w-5xl mx-auto text-center px-8">
@@ -576,7 +461,7 @@ export default function Portfolio() {
             </div>
           </div>
         );
-      case 4:
+      case 3:
         return (
           <div className="max-w-6xl mx-auto text-center px-6 md:px-8 w-full">
             <div className="mb-8 sm:mb-12 md:mb-16">
@@ -724,16 +609,24 @@ export default function Portfolio() {
   };
 
   return (
-    <div
+    <motion.div
       ref={containerRef}
       className="mobile-vh-fix overflow-hidden relative"
       style={{backgroundColor: '#050505'}}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       {/* Dark Shader Background */}
       <DarkShaderBackground />
 
       {/* Fixed Bottom-Right Social Menu */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-50 safe-area-inset-bottom safe-area-inset-right">
+      <motion.div
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-50 safe-area-inset-bottom safe-area-inset-right"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div className="flex items-center space-x-3 sm:space-x-4">
           <a
             href="https://www.linkedin.com/in/ma28b/"
@@ -741,7 +634,7 @@ export default function Portfolio() {
             rel="noopener noreferrer"
             className="group relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 lg:hover:w-12 lg:hover:h-12 hover:scale-110 transition-all duration-500"
           >
-            <Linkedin className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
+            <LinkedinIcon className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
             {/* Tooltip */}
             <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap"
                  style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
@@ -755,7 +648,7 @@ export default function Portfolio() {
             rel="noopener noreferrer"
             className="group relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 lg:hover:w-12 lg:hover:h-12 hover:scale-110 transition-all duration-500"
           >
-            <Github className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
+            <GithubIcon className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
             {/* Tooltip */}
             <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-transparent border text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap"
                  style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
@@ -777,45 +670,101 @@ export default function Portfolio() {
             </div>
           </a>
         </div>
-      </div>
-      
+      </motion.div>
+
+      {/* Back to Home button - top left */}
+      {!isMobile && (
+        <motion.div
+          className="fixed top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8 z-50 safe-area-inset-top safe-area-inset-left"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Link
+            href="/"
+            className="inline-block px-6 py-3 bg-transparent border transition-all duration-300 tracking-[0.2em] font-light hover:bg-gray-800 hover:text-white uppercase text-xs sm:text-sm"
+            style={{borderColor: '#D0D0D0', color: '#E0E0E0', fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.15em', cursor: 'none'}}
+          >
+            ← Home
+          </Link>
+        </motion.div>
+      )}
+
       {/* Page indicator - hidden on mobile */}
       {!isMobile && (
-        <div className="fixed top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-50 safe-area-inset-top safe-area-inset-right">
+        <motion.div
+          className="fixed top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-50 safe-area-inset-top safe-area-inset-right"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div className="text-center">
             <div className="text-xs sm:text-sm text-white/60 font-light mb-2" style={{fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
-              Page {currentSection + 1} of {sections.length}
+              {Object.entries(visibleSections).sort((a, b) => b[1] - a[1])[0][0].toUpperCase()}
             </div>
             <div className="w-12 sm:w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto"></div>
           </div>
-        </div>
+        </motion.div>
       )}
 
-      {/* Main content container */}
+      {/* Main content container - continuous scroll for all devices */}
       <div
         ref={scrollContainerRef}
-        className={`h-full overflow-y-auto overflow-x-hidden relative z-30 safe-area-inset-top safe-area-inset-bottom ${
-          isMobile
-            ? 'px-4 py-6'
-            : `flex flex-col justify-center items-center px-4 py-6 sm:py-8 lg:py-12 transition-all duration-700 ease-in-out ${
-                isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
-              }`
-        }`}
+        className="h-full overflow-y-auto overflow-x-hidden relative z-30 safe-area-inset-top safe-area-inset-bottom"
+        style={{ scrollBehavior: 'smooth' }}
       >
-        {isMobile ? (
-          // Mobile: Render all sections continuously
-          <div className="space-y-16">
-            {sections.map((_, index) => (
-              <div key={index} className="min-h-screen flex flex-col justify-center">
-                {getSectionContent(index)}
-              </div>
-            ))}
-          </div>
-        ) : (
-          // Desktop: Render current section only
-          getSectionContent(currentSection)
-        )}
+        {/* About Section */}
+        <div
+          ref={aboutRef}
+          data-section="about"
+          className="min-h-screen flex flex-col justify-center items-center px-4 py-6 sm:py-8 lg:py-12"
+          style={{
+            opacity: isMobile ? 1 : visibleSections.about,
+            transition: 'opacity 0.3s ease-out'
+          }}
+        >
+          {getSectionContent(0)}
+        </div>
+
+        {/* Skills Section */}
+        <div
+          ref={skillsRef}
+          data-section="skills"
+          className="min-h-screen flex flex-col justify-center items-center px-4 py-6 sm:py-8 lg:py-12"
+          style={{
+            opacity: isMobile ? 1 : visibleSections.skills,
+            transition: 'opacity 0.3s ease-out'
+          }}
+        >
+          {getSectionContent(1)}
+        </div>
+
+        {/* Projects Section */}
+        <div
+          ref={projectsRef}
+          data-section="projects"
+          className="min-h-screen flex flex-col justify-center items-center px-4 py-6 sm:py-8 lg:py-12"
+          style={{
+            opacity: isMobile ? 1 : visibleSections.projects,
+            transition: 'opacity 0.3s ease-out'
+          }}
+        >
+          {getSectionContent(2)}
+        </div>
+
+        {/* Certifications Section */}
+        <div
+          ref={certificationsRef}
+          data-section="certifications"
+          className="min-h-screen flex flex-col justify-center items-center px-4 py-6 sm:py-8 lg:py-12"
+          style={{
+            opacity: isMobile ? 1 : visibleSections.certifications,
+            transition: 'opacity 0.3s ease-out'
+          }}
+        >
+          {getSectionContent(3)}
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
