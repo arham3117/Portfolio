@@ -8,12 +8,30 @@ export const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [isHoveringButton, setIsHoveringButton] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
+    // Detect if device has touch capability
+    const checkTouchDevice = () => {
+      return (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia('(pointer: coarse)').matches
+      );
+    };
+
+    setIsTouchDevice(checkTouchDevice());
+
+    // Only enable custom cursor on non-touch devices
+    if (checkTouchDevice()) {
+      document.body.style.cursor = 'auto';
+      return;
+    }
+
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
-      
+
       // Check if hovering over the "Go to Portfolio" button on landing page
       const target = e.target as Element;
       if (pathname === '/' && target?.closest('a[href="/portfolio"]')) {
@@ -28,7 +46,7 @@ export const CustomCursor = () => {
 
     // Set cursor to none on document body for global effect
     document.body.style.cursor = 'none';
-    
+
     document.addEventListener('mousemove', updateMousePosition);
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseleave', handleMouseLeave);
@@ -44,6 +62,11 @@ export const CustomCursor = () => {
       document.body.style.cursor = 'auto';
     };
   }, [pathname]);
+
+  // Don't render custom cursor on touch devices
+  if (isTouchDevice) {
+    return null;
+  }
 
   // Determine cursor color based on page and hover state
   const getCursorColor = () => {
