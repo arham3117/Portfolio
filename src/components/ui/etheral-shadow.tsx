@@ -113,7 +113,7 @@ export function Component({
             <div
                 style={{
                     position: "absolute",
-                    inset: -Math.min(displacementScale, 50),
+                    inset: -displacementScale,
                     filter: animationEnabled ? `url(#${id}) blur(4px)` : "none"
                 }}
             >
