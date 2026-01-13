@@ -56,18 +56,32 @@ export default function Portfolio() {
   const [currentProject, setCurrentProject] = useState(0);
   const [isProjectTransitioning, setIsProjectTransitioning] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<'devops' | 'cloud' | 'aiml'>('devops');
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef<number>(0);
   const touchEndY = useRef<number>(0);
-  
+
   const sections = [
     'navigation',
-    'about', 
+    'about',
     'skills',
     'projects',
     'certifications'
   ];
+
+  // Detect mobile device on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth < 768; // md breakpoint
+      setIsMobile(isTouchDevice && isSmallScreen);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Filter projects based on selected category
   const filteredProjects = projects.filter(project => project.category === selectedCategory);
@@ -123,6 +137,9 @@ export default function Portfolio() {
   }, [selectedCategory]);
 
   useEffect(() => {
+    // Skip section navigation on mobile - use simple continuous scroll
+    if (isMobile) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown' || e.key === ' ') {
         e.preventDefault();
@@ -227,7 +244,7 @@ export default function Portfolio() {
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [nextSection, prevSection]);
+  }, [nextSection, prevSection, isMobile]);
 
 
   const getSectionContent = (sectionIndex: number) => {
@@ -764,24 +781,42 @@ export default function Portfolio() {
         </div>
       </div>
       
-      {/* Page indicator */}
-      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-50 safe-area-inset-top safe-area-inset-right">
-        <div className="text-center">
-          <div className="text-xs sm:text-sm text-white/60 font-light mb-2" style={{fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
-            Page {currentSection + 1} of {sections.length}
+      {/* Page indicator - hidden on mobile */}
+      {!isMobile && (
+        <div className="fixed top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-50 safe-area-inset-top safe-area-inset-right">
+          <div className="text-center">
+            <div className="text-xs sm:text-sm text-white/60 font-light mb-2" style={{fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
+              Page {currentSection + 1} of {sections.length}
+            </div>
+            <div className="w-12 sm:w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto"></div>
           </div>
-          <div className="w-12 sm:w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto"></div>
         </div>
-      </div>
+      )}
 
       {/* Main content container */}
       <div
         ref={scrollContainerRef}
-        className={`h-full flex flex-col justify-center items-center px-4 py-6 sm:py-8 lg:py-12 overflow-y-auto transition-all duration-700 ease-in-out relative z-30 safe-area-inset-top safe-area-inset-bottom ${
-          isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
+        className={`h-full overflow-y-auto overflow-x-hidden relative z-30 safe-area-inset-top safe-area-inset-bottom ${
+          isMobile
+            ? 'px-4 py-6'
+            : `flex flex-col justify-center items-center px-4 py-6 sm:py-8 lg:py-12 transition-all duration-700 ease-in-out ${
+                isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
+              }`
         }`}
       >
-        {getSectionContent(currentSection)}
+        {isMobile ? (
+          // Mobile: Render all sections continuously
+          <div className="space-y-16">
+            {sections.map((_, index) => (
+              <div key={index} className="min-h-screen flex flex-col justify-center">
+                {getSectionContent(index)}
+              </div>
+            ))}
+          </div>
+        ) : (
+          // Desktop: Render current section only
+          getSectionContent(currentSection)
+        )}
       </div>
     </div>
   );
