@@ -413,8 +413,8 @@ export default function Portfolio() {
               </div>
 
               {/* Category Filter */}
-              <div className="mb-16 text-center">
-                <div className="inline-flex items-center space-x-8">
+              <div className="mb-16 flex justify-center">
+                <div className="inline-flex items-center space-x-3 sm:space-x-6 md:space-x-8">
                   {[
                     { key: 'devops', label: 'DEVOPS' },
                     { key: 'cloud', label: 'CLOUD' },
@@ -423,7 +423,7 @@ export default function Portfolio() {
                     <button
                       key={key}
                       onClick={() => setSelectedCategory(key as 'devops' | 'cloud' | 'aiml')}
-                      className={`px-4 py-2 text-sm font-light uppercase tracking-wider transition-all duration-300${
+                      className={`px-2 py-2 sm:px-4 text-xs sm:text-sm font-light uppercase tracking-wider transition-all duration-300${
                         selectedCategory === key
                           ? ' text-white border-b border-white'
                           : ' text-gray-400 hover:text-gray-200'
@@ -431,8 +431,7 @@ export default function Portfolio() {
                       style={{
                         fontFamily: 'Montserrat, sans-serif',
                         fontWeight: '300',
-                        letterSpacing: '0.1em',
-                        cursor: 'none'
+                        letterSpacing: '0.1em'
                       }}
                     >
                       {label}
@@ -461,8 +460,8 @@ export default function Portfolio() {
             </div>
 
             {/* Category Filter */}
-            <div className="mb-12 md:mb-16 text-center">
-              <div className="inline-flex items-center space-x-8">
+            <div className="mb-12 md:mb-16 flex justify-center">
+              <div className="inline-flex items-center space-x-3 sm:space-x-6 md:space-x-8">
                 {[
                   { key: 'devops', label: 'DEVOPS' },
                   { key: 'cloud', label: 'CLOUD' },
@@ -471,7 +470,7 @@ export default function Portfolio() {
                   <button
                     key={key}
                     onClick={() => setSelectedCategory(key as 'devops' | 'cloud' | 'aiml')}
-                    className={`px-6 py-3 text-base md:text-lg font-light uppercase tracking-wider transition-all duration-300${
+                    className={`px-3 py-2 sm:px-6 sm:py-3 text-xs sm:text-base md:text-lg font-light uppercase tracking-wider transition-all duration-300${
                       selectedCategory === key
                         ? ' text-white border-b-2 border-white'
                         : ' text-gray-400 hover:text-gray-200'
@@ -479,8 +478,7 @@ export default function Portfolio() {
                     style={{
                       fontFamily: 'Montserrat, sans-serif',
                       fontWeight: '300',
-                      letterSpacing: '0.1em',
-                      cursor: 'none'
+                      letterSpacing: '0.1em'
                     }}
                   >
                     {label}
