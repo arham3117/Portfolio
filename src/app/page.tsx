@@ -4,7 +4,7 @@ import { Component } from "@/components/ui/etheral-shadow";
 
 const DemoOne = () => {
   return (
-    <div className="flex w-full h-screen justify-center items-center">
+    <div className="absolute inset-0 w-full h-full">
       <Component
         color="rgba(128, 128, 128, 1)"
         animation={{ scale: 100, speed: 90 }}
