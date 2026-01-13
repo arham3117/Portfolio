@@ -711,21 +711,20 @@ export default function Portfolio() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen h-screen overflow-hidden relative"
+      className="mobile-vh-fix overflow-hidden relative"
       style={{backgroundColor: '#050505'}}
     >
       {/* Dark Shader Background */}
       <DarkShaderBackground />
 
       {/* Fixed Bottom-Right Social Menu */}
-      <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50">
-        <div className="flex items-center space-x-4">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-50 safe-area-inset-bottom safe-area-inset-right">
+        <div className="flex items-center space-x-3 sm:space-x-4">
           <a
             href="https://www.linkedin.com/in/ma28b/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex items-center justify-center w-10 h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 hover:w-12 hover:h-12 hover:scale-110 transition-all duration-500"
-            style={{cursor: 'none'}}
+            className="group relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 lg:hover:w-12 lg:hover:h-12 hover:scale-110 transition-all duration-500"
           >
             <Linkedin className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
             {/* Tooltip */}
@@ -739,8 +738,7 @@ export default function Portfolio() {
             href="https://github.com/arham3117"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex items-center justify-center w-10 h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 hover:w-12 hover:h-12 hover:scale-110 transition-all duration-500"
-            style={{cursor: 'none'}}
+            className="group relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 lg:hover:w-12 lg:hover:h-12 hover:scale-110 transition-all duration-500"
           >
             <Github className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
             {/* Tooltip */}
@@ -754,8 +752,7 @@ export default function Portfolio() {
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex items-center justify-center w-10 h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 hover:w-12 hover:h-12 hover:scale-110 transition-all duration-500"
-            style={{cursor: 'none'}}
+            className="group relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 border border-white/20 rounded-full hover:border-white/40 hover:bg-white/10 lg:hover:w-12 lg:hover:h-12 hover:scale-110 transition-all duration-500"
           >
             <FileText className="w-4 h-4 text-white/60 group-hover:text-white group-hover:w-5 group-hover:h-5 transition-all duration-500" />
             {/* Tooltip */}
@@ -768,19 +765,19 @@ export default function Portfolio() {
       </div>
       
       {/* Page indicator */}
-      <div className="fixed top-8 right-8 z-50">
+      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-8 z-50 safe-area-inset-top safe-area-inset-right">
         <div className="text-center">
-          <div className="text-sm text-white/60 font-light mb-2" style={{fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
+          <div className="text-xs sm:text-sm text-white/60 font-light mb-2" style={{fontFamily: 'Montserrat, sans-serif', fontWeight: '300', letterSpacing: '0.05em'}}>
             Page {currentSection + 1} of {sections.length}
           </div>
-          <div className="w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto"></div>
+          <div className="w-12 sm:w-16 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto"></div>
         </div>
       </div>
 
       {/* Main content container */}
       <div
         ref={scrollContainerRef}
-        className={`h-full flex flex-col justify-center items-center px-4 py-8 sm:py-12 overflow-y-auto transition-all duration-700 ease-in-out relative z-30 ${
+        className={`h-full flex flex-col justify-center items-center px-4 py-6 sm:py-8 lg:py-12 overflow-y-auto transition-all duration-700 ease-in-out relative z-30 safe-area-inset-top safe-area-inset-bottom ${
           isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
         }`}
       >
